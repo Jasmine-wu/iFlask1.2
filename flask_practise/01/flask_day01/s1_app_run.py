@@ -1,7 +1,6 @@
 
 from flask import Flask,request
 
-
 app=Flask(__name__)
 
 @app.route('/')   # 装饰器加括号和不加括号的区别

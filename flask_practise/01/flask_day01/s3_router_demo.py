@@ -30,31 +30,37 @@ def index():
         # return redirect('/login')
         url = url_for('l1')  # 反向解析
         print(url)
-        return redirect(url)
+        return redirect(url) # 重定向到login
     return render_template('index.html',user_dict=USERS)
 
 
-@app.route('/login',methods=['GET','POST'],endpoint='l1')  # endpoint路由的别名，用作反向解析
+# @
+@app.route('/login',methods=['GET','POST'],endpoint='l1')  # endpoint：路由/login的别名，用作反向解析
+# @登陆认证装饰器要放到下面来
 def login():
     if request.method == "GET":
-        return render_template('login.html')
+        print("request.query_string:",request.query_string)
+        return render_template('login.html',success='LOGI')
     else:
         # request.query_string
         # post提交过来的数据放在form中
         # get请求提交过来的数据query_string中
+
+        # user/pwd：根据index.html里的name属性
         user = request.form.get('user')
         pwd = request.form.get('pwd')
         if user == 'lqz' and pwd == '123':
             # 往session中放入key和value
             session['user_info'] = user
             return redirect('/index')
+        # error是模版login.html的变量{{error}}
         return render_template('login.html',error='用户名或密码错误')
 
 
 
+# 不用路由装饰器，怎么实现路由？如下：
 def xxx():
     return 'xxx'
-
 app.add_url_rule('/xxx',view_func=xxx)
 
 
@@ -68,7 +74,9 @@ if __name__ == '__main__':
 1 @app.route('/login',methods=['GET','POST'],endpoint='l1')，
     -第一个参数是路径，
     -methods=['GET','POST']，请求方式
-    -endpoint='l1'，别名，如果不写，使用函数名作为别名
+    -endpoint='l1'，别名，如果不写，使用函数名作为别名，endpoint不能重名，因为反向解析会有问题。
 路由的本质：self.add_url_rule
+
+2 一个函数多个装饰器的执行顺序问题：从上到下执行。因此登陆认证装饰器，要当在登陆路由下面。
 
 '''

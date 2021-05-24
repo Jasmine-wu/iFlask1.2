@@ -13,7 +13,7 @@ def index():
 
     from werkzeug.datastructures import CombinedMultiDict
     # request.method  提交的方法
-    # request.args  get请求提及的数据
+    # request.args  get请求提及的数据,是个字典
     # request.form   post请求提交的数据
     # request.values  post和get提交的数据总和
     # request.cookies  客户端所带的cookie
@@ -30,7 +30,7 @@ def index():
     # request.host_url		域名
     # request.host			127.0.0.1:500
     # request.files
-
+    # print(request.args.get("xxx"))
     # print(request.url)
     # print(request.url_root)
     # print(request.host_url)
@@ -50,7 +50,6 @@ def index():
     # print(request.values.getlist('name'))
 
 
-
     # 响应对象
     # 响应相关信息
     # return "字符串"
@@ -59,9 +58,11 @@ def index():
     # 对着django，JsonResponse
     # return jsonify({'k1':'v1'})
 
+    # 设置cookie
     aa='hello world'
     res=make_response(aa)
     res.set_cookie('xxx','lqz')
+
     # 往响应头中放东西
     res.headers['X-Something'] = 'A value'
     print(type(res))
